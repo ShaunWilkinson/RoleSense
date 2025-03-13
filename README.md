@@ -4,3 +4,6 @@ This solution allows for easily analysing Azure IAM Role Assignments and compari
 You may not use any of the code found in this project to implement your own paid solution, but may commit changes to the original repository that remove billing requirements and/or improve the solution for anybody else tha may wish to use it.
 
 A working example of the project is located at https://rolesense.org/
+
+# Solution Design
+The Solution is designed to run in tandem with the [RoleSense-ReportGeneration](https://github.com/ShaunWilkinson/RoleSense-ReportGeneration) repository which handles the back-end queuing and processing of report requests.

@@ -1,0 +1,3 @@
+[submodule "reportGeneration"]
+	path = reportGeneration
+	url = https://github.com/ShaunWilkinson/RoleSense-ReportGeneration
