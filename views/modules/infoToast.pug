@@ -1,0 +1,8 @@
+block infoToast 
+	.position-fixed.bottom-0.end-0.p-3(style="z-index:11;")
+		#infoToast.toast(role="alert", aria-live="assertive" aria-atomic="true")
+			.toast-header 
+				strong.me-auto.toastHeading Placeholder
+				small.toastDate 15:25
+				button(type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close")
+			.toast-body 

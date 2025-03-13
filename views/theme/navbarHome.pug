@@ -1,0 +1,24 @@
+block navbarHome 
+	script(src="/javascript/navbar.js?v=1.0")
+
+	nav.navbar.navbar-expand-lg.navbar-dark.sticky-top.homeNav#homeNav
+		.container.px-5
+			a.navbar-brand.align-items-center.d-flex(href='/')
+				img.navbar-brand-dark.img-fluid(src='/images/Logos/icon-white.webp' alt='Logo', style="height:20px;")
+				span.mt-1.ms-1.sidebar-text.fw-bolder RoleSense
+			button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
+				span.navbar-toggler-icon
+			#navbarSupportedContent.collapse.navbar-collapse
+				ul.navbar-nav.ms-auto.mb-2.mb-lg-0
+					li.nav-item
+						a.nav-link(href='/login') Login
+					//-li.nav-item
+						a.nav-link(href='/#features') Features
+					li.nav-item
+						a.nav-link(href='/#pricing') Pricing
+					li.nav-item
+						a.nav-link(href='/contact') Contact
+					li.nav-item
+						a.nav-link(href='/gettingStarted') Getting Started
+					//-li.nav-item
+						a.nav-link(href='/roadmap') Roadmap

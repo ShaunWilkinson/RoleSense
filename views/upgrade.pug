@@ -1,0 +1,13 @@
+extends theme/dashboardLayout
+
+block content
+	.card.mt-4
+		.card-body
+			script(src="https://js.stripe.com/v3/")
+			
+			if env == 'development' 
+				script(src="/javascript/stripePrivate.js?=1.0" defer)
+			else
+				script(src="/javascript/stripe.js?v=1.0" defer)
+
+			#checkout.p-2

@@ -1,0 +1,31 @@
+extends theme/default
+
+block content
+	//- Header
+	header.py-5.d-flex.align-items-center
+		.container.px-5
+			.row.gx-5.justify-content-center
+				.col-lg-6.bg-header.rounded
+					.text-center.my-5
+						h1.display-5.fw-bolder.text-white.mb-2 Need to get in touch?
+						p.lead.mb-4 We're here to help you to the best of our abilities. Simply fill in the form and we'll be in touch as soon as possible.
+
+
+	section#whatisRoleSense.py-5.border-bottom
+		.container.pb-5.mb-5
+			.row.gx-5
+				.col-lg-5.mb-5.mb-lg-0.ms-auto
+					.card.shadow 
+						.card-body 
+							.m-lg-4.m-0
+								script(charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/embed/v2.js")
+								script.
+									hbspt.forms.create({
+										portalId: "48029726",
+										formId: "1845dc31-4479-4797-b532-6c37f7f083a0"
+									});
+				.col-lg-4.mb-5.mb-lg-0.me-auto.d-flex.flex-column
+					.my-auto
+						h2.fw-bolder.mb-4.text-center Get in Touch
+						p Looking for support, to provide feedback, or just want to chat about what RoleSense can do for you? Get in touch with us and we'll respond as soon as possible.
+				

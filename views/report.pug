@@ -1,0 +1,183 @@
+extends theme/dashboardLayout
+
+block content
+	script(type="text/javascript", src='/javascript/dashboard.js?v=1.3')
+
+	include modules/statusModule
+
+	if helpText
+		.alert.alert-info.mt-3(role="alert")
+			p.mb-0
+				svg(xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16").me-2
+					path(d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2")
+				| #{helpText}
+
+	if !report
+		.card.card-body.shadow
+			h2.mt-2.mb-4 Report Not Found 
+			p.mb-0 No report was found with the given ID. The report may not have finished processing or you may not have access.
+	else
+		script(type="text/javascript", src='/chart.umd.js?v=1.0')
+
+		.row.mt-4
+			- var headerText = 'Total Assignments'
+			- var data = suggestions.length ?? '0'
+			- var defaultText = '0'
+			- var colorClass = 'bg-start'
+			- var iconClass = 'bi-people-fill'
+			if totalReportSize > suggestions.length 
+				- data = `${suggestions.length} (${totalReportSize})`
+			.col-12.col-sm-6.col-xl-4.mb-4 
+				include ./modules/infoCard
+
+			- var headerText = 'Can Be Reduced'
+			- var canBeReduced = suggestions.filter(item => item.roleRequired == 1 && item.assignedRole != item.recommendedRole)
+			- var percentage = (canBeReduced.length / suggestions.length) * 100
+			- var data = `${(percentage).toFixed(2)}% (${canBeReduced.length})` ?? '0% (0)'
+			- var colorClass = 'bg-mid'
+			- var iconClass = 'bi-arrow-down'
+			.col-12.col-sm-6.col-xl-4.mb-4 
+				include ./modules/infoCardPercentage
+
+			- var headerText = 'Can Be Removed'
+			- var canBeRemoved = suggestions.filter(item => item.roleRequired == 0)
+			- var percentage = (canBeRemoved.length / suggestions.length) * 100
+			- var data = `${(percentage).toFixed(2)}% (${canBeRemoved.length})` ?? '0% (0)'
+			- var colorClass = 'bg-end'
+			- var iconClass = 'bi-trash-fill'
+			.col-12.col-sm-6.col-xl-4.mb-4 
+				include ./modules/infoCardPercentage
+
+		.row
+			include ./modules/pieChartCard
+
+			- var criticalCategory = suggestions.filter(role => role.category == 'Critical')
+			- var highCategory = suggestions.filter(role => role.category == 'High')
+			- var mediumCategory = suggestions.filter(role => role.category == 'Medium')
+			- var lowCategory = suggestions.filter(role => role.category == 'Low')
+			+pieChartCard('Risk by Role', 'High risk roles are those which allow deletion of data and resources, Medium are those that allow writing, Low are all other roles.', 'roleRiskChart', [
+				{label: 'Critical', count: criticalCategory.length, backgroundColor: '#e11d48 '}, 
+				{label: 'High', count: highCategory.length, backgroundColor: '#92278F'}, 
+				{label:'Medium', count: mediumCategory.length, backgroundColor: '#5C41A2'}, 
+				{label:'Low', count: lowCategory.length, backgroundColor: '#1C61BC'}])
+
+			- var users = [...new Set(suggestions.filter(role => role.userType == 'User').map(user => user.userName))]
+			- var servicePrincipals = [...new Set(suggestions.filter(role => role.userType == 'ServicePrincipal').map(user => user.userName))]
+			+pieChartCard('User Type Breakdown', 'A summary of how many users and service principals with role assignments', 'userTypeChart', [
+				{label: 'Users', count: users.length, backgroundColor: '#92278F'}, 
+				{label:'Service Principals', count: servicePrincipals.length, backgroundColor: '#1C61BC'}])
+
+			- var globalCategory = suggestions.filter(role => role.scopeType == 'Global')
+			- var subscriptionCategory = suggestions.filter(role => role.scopeType == 'Subscription')
+			- var resourceGroupCategory = suggestions.filter(role => role.scopeType == 'Resource Group')
+			- var resourceCategory = suggestions.filter(role => role.scopeType == 'Resource')
+			+pieChartCard('Role Scope Breakdown', 'A summary of the scope of all roles, lower scoped roles are better.', 'roleScopeChart', [
+				{label: 'Global', count: globalCategory.length, backgroundColor: '#92278F'}, 
+				{label:'Subscription', count: subscriptionCategory.length, backgroundColor: '#6D399D'}, 
+				{label:'Resource Group', count: resourceGroupCategory.length, backgroundColor: '#4A4AAA'},
+				{label:'Resource', count: resourceCategory.length, backgroundColor: '#1C61BC'}])
+
+		.row.mb-2 
+			.col-12 
+				.btn-toolbar 
+					a.btn.btn-sm.btn-gray-800.d-inline-flex.align-items-center(href=`/report/download?id=${reportId}`)
+						| Download (.csv)
+
+		.row.gy-2.mb-2 
+			.col-12
+				.card.shadow.border-0
+					.titleSection.mx-4.mt-4
+						h2.card-title.mt-0.mb-2 Report - 
+							span.fw-normal #{report.title}
+						p The report below has been generated based on all available audit log information. As Azure does not log all actions taken, please ensure that you verify before removing or updating roles.
+
+					.card-body.table-wrapper.table-responsive
+						table.table.user-table.table-hover.align-items-center#reportTable.table-striped
+							thead
+								tr
+									th.border-bottom(title="The UPN or ID of a user or Service Principal") Name
+									th.border-bottom(title="Identifies if a given account is a User or Service Principal") Principal Type
+									th.border-bottom(title="The role that is currently assigned") Assigned Role
+									th.border-bottom(title="The risk associated with the currently assigned role", style="min-width:84px") Risk
+									th.border-bottom(title="Indicates whether a role may be removed entirely, or the minimum available role which covers the required actions", style="min-width:250px;") Recommended Role
+									th.border-bottom(title="Identifies the level that a role is assigned") Scope
+									th.border-bottom(title="Whether a role is required") Role in Use 
+									th.border-bottom(title="A list of individual actions that the user has used in the past period") Required Actions 
+							tbody
+								if !suggestions || suggestions.length == 0
+									tr.reportRow
+										td(colspan="4")
+											span.fw-bold There are no recommendations
+								else
+									for suggestion in suggestions
+										tr.reportRow
+											td
+												.d-flex.align-items-center
+													.d-block
+														if suggestion.userName.indexOf("(") > 0
+															- suggestion.userPrincipalName = suggestion.userName.substring(suggestion.userName.indexOf("(")+1, suggestion.userName.length - 1)
+															- suggestion.userName = suggestion.userName.substring(0, suggestion.userName.indexOf("(")-1)
+
+														span.fw-bold.reportName #{suggestion.userName}
+
+														- var upn = suggestion.userPrincipalName
+														if upn == 'null'
+															- upn = ''
+														.small.text-gray.reportUsersCount #{upn}
+											td
+												span.fw-bold.fw-bold #{suggestion.userType}
+											td
+												- var privilegedRole = false;
+												if suggestion.assignedRole == 'Owner' || suggestion.assignedRole == 'Contributor' || suggestion.assignedRole == 'Role Based Access Control Administrator' || suggestion.assignedRole == 'User Access Administrator'
+													- privilegedRole = true;
+												
+												if privilegedRole 
+													.rounded-pill.d-flex.bg-danger.text-white(title="This is a highly privileged role, and should be reduced and/or removed if possible")
+														span.text-white.fw-bolder.px-2 #{suggestion.assignedRole}
+												else
+													span.fw-normal #{suggestion.assignedRole}
+
+											td 
+												- var colorClass = 'bg-success'
+												- var title = 'Low risk roles do not allow modifying data nor deleting of data, but may still be capable of causing issues if maliciously used.'
+												case suggestion.category
+													when "Critical"
+														- title = 'A highly privileged role that has few if any controls'
+														- colorClass = 'bg-danger'
+													when "High"
+														- title = 'A High risk role is identified as such due to allowing deletion of data and resources which is often irreversible'
+														- colorClass = 'bg-danger'
+													when "Medium"
+														- title = 'A Medium risk role is identified by allowing access to write and/or modify data'
+														- colorClass = 'bg-warning'
+												
+												.rounded-pill.align-items-center.d-flex(style="min-width: 85px" class=colorClass title=title)
+													span.m-auto.text-white.fw-bolder #{suggestion.category}
+												
+											- var recommendedRole = suggestion.recommendedRole 
+											if recommendedRole == 'Role can be removed'
+												- recommendedRole = 'None'
+											td(style="white-space:normal;" title=recommendedRole) #{recommendedRole}
+
+											td
+												span.fw-normal #{suggestion.scopeType}
+											td
+												- var roleRequired = suggestion.roleRequired == 1
+												- var colorClass = 'bg-success'
+												if roleRequired
+													- roleRequired = "Yes"
+												else 
+													- roleRequired = "No"
+													- colorClass = 'bg-danger'
+												
+												.rounded-pill.align-items-center.d-flex(style="min-width: 85px" class=colorClass)
+													span.m-auto.text-white.fw-bolder #{roleRequired}
+											td
+												- var requiredActions = suggestion.requiredActions.split(",")
+												each action in requiredActions
+													span.fw-normal= action
+													br
+
+						script(src='tablesort.min.js')
+						script.
+							new Tablesort(document.getElementById('reportTable'));

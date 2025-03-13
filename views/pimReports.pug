@@ -1,0 +1,67 @@
+extends theme/dashboardLayout
+
+block content
+	script(type="text/javascript", src='/javascript/pimReports.js?v=1.1')
+
+	include ./modules/dataRetrievalError
+	include ./modules/statusModule
+	
+	//-.row.mt-4
+		- var headerText = 'Tenant'
+		- var data = tenantDetails?.displayName ?? 'Missing Tenant Access'
+		- var colorClass = 'bg-start'
+		- var iconClass = 'bi-house-door-fill'
+		.col-12.col-sm-6.col-xl-4.mb-4 
+			include ./modules/infoCard
+
+		- var headerText = 'Users'
+		- var data = userCount && !userCount.error ? userCount : '0'
+		- var colorClass = 'bg-mid'
+		- var iconClass = 'bi-people-fill'
+		.col-12.col-sm-6.col-xl-4.mb-4 
+			include ./modules/infoCard
+								
+		- var headerText = 'Available Subscriptions'
+		- var data = subscriptionCount ?? '0'
+		- var defaultText = '0'
+		- var colorClass = 'bg-end'
+		- var iconClass = 'bi-key-fill'
+		.col-12.col-sm-6.col-xl-4.mb-4 
+			include ./modules/infoCard
+
+	.card.mb-4.mt-4
+		- var now = new Date();
+		- var thirtyDaysAgo = new Date(new Date().setDate(now.getDate() - 30));
+		if oldestAvailableLogDate
+			- var oldestLog = new Date(oldestAvailableLogDate.TimeGenerated)
+
+		.card-body.shadow
+			h2.card-title.mb-0 Start PIM Assignment Analysis
+
+			if oldestLog && oldestLog <= thirtyDaysAgo
+				p.text-muted Start an analysis of all Entra ID PIM Assignments. This will show a list of all current PIM Assignments and whether they have been activated. You can limit the lookback period of the report by selecting a From Filter date.
+			else
+				p.text-muted Start an analysis of all Entra ID PIM Assignments. This will show a list of all current PIM Assignments and whether they have been activated. 
+
+			.row
+				.col-12.col-md-6
+					- var oldestAvailableDate = thirtyDaysAgo
+					if oldestLog && oldestLog < thirtyDaysAgo
+						- oldestAvailableDate = oldestLog
+					- oldestAvailableDate = oldestAvailableDate.toISOString().split('T')[0]
+					.input-group
+						span.input-group-text#fromLabel From Filter
+						input#startDate.form-control(type="date", value=oldestAvailableDate, min=oldestAvailableDate, max=today, aria-describedby="fromLabel")
+
+				.col-12.col-md-6
+					button.btn.btn-primary.w-100#analyseButton(type="button") Analyse
+
+				.col-12.fw-bold.d-none.text-center#analysisText
+
+	
+	.card.h-100
+		.card-body.shadow.h-100
+			h2.card-title.mb-0 Recent Reports
+			include modules/PimReportTable
+
+	include modules/infoToast

@@ -1,0 +1,78 @@
+extends theme/dashboardLayout
+
+block content
+	script(type="text/javascript", src='/javascript/dashboard.js?v=1.3')
+
+	include ./modules/dataRetrievalError
+	
+	.row.mt-4
+		.col-12.col-sm-6.col-xl-4.mb-4 
+			- var headerText = 'Tenant'
+			- var data = tenantDetails?.displayName ?? 'Missing Tenant Access'
+			- var colorClass = 'bg-start'
+			- var iconClass = 'bi-house-door-fill'
+			include ./modules/infoCard
+
+		- var headerText = 'Users'
+		- var data = userCount && !userCount.error ? userCount : '0'
+		- var colorClass = 'bg-mid'
+		- var iconClass = 'bi-people-fill'
+		.col-12.col-sm-6.col-xl-4.mb-4 
+			include ./modules/infoCard
+								
+		- var headerText = 'Available Subscriptions'
+		- var data = subscriptionCount ?? '0'
+		- var defaultText = '0'
+		- var colorClass = 'bg-end'
+		- var iconClass = 'bi-key-fill'
+		.col-12.col-sm-6.col-xl-4.mb-4 
+			include ./modules/infoCard
+
+	.card.mb-4
+		- var now = new Date();
+		- var thirtyDaysAgo = new Date(new Date().setDate(now.getDate() - 30));
+		if oldestAvailableLogDate
+			- var oldestLog = new Date(oldestAvailableLogDate.TimeGenerated)
+
+		.card-body.shadow
+			h2.card-title.mb-0 Start Role Analysis
+
+			if oldestLog && oldestLog <= thirtyDaysAgo
+				p.text-muted Choose a Subscription and, optionally, a Resource Group to analyze role assignments. You can limit the lookback period of the report by selecting a From Filter date.
+			else
+				p.text-muted Choose a Subscription and, optionally, a Resource Group to analyze role assignments
+			.row.gy-2
+				.col-12.col-md-4
+					select.form-select(aria-lable="Subscription selector")#subscriptionSelector
+						if !subscriptions || subscriptions.value.length == 0
+							option(selected, value="") No Subscriptions available
+						else 
+							option(selected, value="") Select a Subscription...
+							for subscription in subscriptions.value
+								option(value=subscription.subscriptionId) #{subscription.displayName}
+
+				.col-12.col-md-4
+					select.form-select(aria-lable="Subscription selector")#resourceGroupSelector
+						option(selected, value="") No Resource Groups available
+
+				.col-12.col-md-4
+					- var oldestAvailableDate = thirtyDaysAgo
+					if oldestLog && oldestLog < thirtyDaysAgo
+						- oldestAvailableDate = oldestLog
+					- oldestAvailableDate = oldestAvailableDate.toISOString().split('T')[0]
+					.input-group
+						span.input-group-text#fromLabel From Filter
+						input#startDate.form-control(type="date", value=oldestAvailableDate, min=oldestAvailableDate, max=today, aria-describedby="fromLabel")
+
+				.col-12
+					button.btn.btn-primary.w-100#analyseButton(type="button", disabled) Analyse
+
+				.col-12.fw-bold.d-none.text-center#analysisText
+
+	
+	.card.h-100
+		.card-body.shadow.h-100
+			h2.card-title.mb-0 Recent Reports
+			include modules/reportTable
+
+	include modules/infoToast

@@ -1,0 +1,35 @@
+block orderTable 
+	.border-0.table-wrapper.table-responsive
+		table.table.user-table.table-hover.align-items-center
+			thead
+				tr
+					th.border-bottom Order Date 
+					th.border-bottom Status
+					th.border-bottom Users
+					th.border-bottom Cost
+					//-th.border-bottom Action
+			tbody
+				if !orders || orders.length == 0
+					tr.reportRow
+						td(colspan="4")
+							span.fw-bold There are no orders
+				else
+					for order in orders
+						tr.reportRow(id=order.id)
+							td
+								- var created = new Date(order.created*1000);
+								- var friendlyCreated = created.toLocaleString('en-UK', {year: 'numeric',month: 'short',day: 'numeric',hour: 'numeric',minute: '2-digit',hour12: true})
+								span.fw-normal #{friendlyCreated}
+
+							td 
+								span.fw-normal.orderStatus #{order.status}
+								
+							td
+								a.d-flex.align-items-center(href=`/order?id=${order.id}`)
+									.d-block
+										span.fw-bold #{order.lines.data[order.lines.data.length-1].quantity.toLocaleString("en-GB")}
+							td
+								span.fw-bolder.text-primary £#{Number(order.amount_paid / 100).toFixed(2)}
+							td 
+								a(href=order.invoice_pdf) 
+									button.btn.btn-primary View Order

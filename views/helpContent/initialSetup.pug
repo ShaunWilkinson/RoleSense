@@ -1,0 +1,43 @@
+block initialSetupArticle 
+	h2#prerequisites Prerequisites
+	p By default, RoleSense has no access to your Azure environment, to analyse Audit Logs, User Accounts and Service Principals, please follow the steps below.
+
+	hr.hr.mt-4.mb-4
+
+	h3#azureConfiguration.mt-5 Azure Configuration
+	
+	h4 Assign Directory Reader Role
+	p To successfully audit your environment, RoleSense requires that the 
+		span.fw-bolder Directory Readers 
+		| role is assigned to the RoleSense Service Principal in Entra ID. This role allows RoleSense to retrieve information about your tenant and users, which is required to perform an access audit.
+	ol
+		li Access the 
+			span.fw-bolder Azure Admin Portal 
+			| using an account with the necessary permissions to assign roles in Entra ID.
+		li Navigate to 
+			span.fw-bolder Entra ID 
+			| and access the 
+			span.fw-bolder Roles and administrators 
+			| page.
+		li Locate the 
+			span.fw-bolder Directory Readers 
+			| role in the list and access it.
+		li Select 
+			span.fw-bolder Add assignments 
+			| then assign the 
+			span.fw-bolder Directory Readers 
+			| role to the 
+			span.fw-bolder RoleSense 
+			| application.
+
+	h4#subscriptionAccess Assign Subscription Access 
+	p You must explicitly grant the 
+		span.fw-bolder Reader 
+		| role to the RoleSense Service Principal within each Subscription you plan to review. This ensures that RoleSense is able to audit your Activity Logs and to suggest security improvements. You can optionally assign the Reader role at a Management Group level instead to provide access to multiple Subscriptions.
+	ol 
+		li Access each 
+			span.fw-bolder Subscription 
+			| that you plan to audit.
+		li Assign the 
+			span.fw-bolder Reader 
+			| role to the RoleSense service principal.

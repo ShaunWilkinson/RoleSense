@@ -1,0 +1,49 @@
+extends theme/dashboardLayout
+
+block content
+	script(type="text/javascript", src='/javascript/minimumAccessTool.js?v=1.2')
+
+	.card.mb-4.mt-4
+		.card-body.shadow
+			h2.card-title.mb-0 Minimum Access Tool
+			p.text-muted.mb-0 This tool allows you to enter a required role action or a comma-seperated list of role actions. RoleSense will then provide a list of roles organised by most to least restrictive.
+
+			.container.my-2
+				.row.gy-2 
+					.col-12
+						input.w-100.form-control(type="text", placeholder="Eg. Microsoft.Resources/subscriptions/read, Microsoft.Resources/subscriptions/resourceGroups/read")#roleActionsInput
+					.col-12 
+						button.btn.btn-primary.w-100#submitBtn(type="button", disabled) Find Minimum Role
+					.col-12.fw-bold.d-none.text-center#analysisText
+
+	.card.card-body.shadow.border-0.table-wrapper.table-responsive#roleDisplayCard.d-none
+		h2.card-title.mb-0 Identified Roles
+		p.text-muted.mb-0 The roles shown below are potential options matching your list of required actions. These are organised by most to least restrictive. Up to 10 roles are shown.
+
+		table.table.table-hover.align-items-center#roleTable.table-striped.table-responsive
+			thead
+				tr
+					th.border-bottom Role Name 
+					th.border-bottom Risk 
+					th.border-bottom(style="max-width:200px") Description 
+					th.border-bottom Allowed Actions 
+					th.border-bottom Disallowed Actions 
+					th.border-bottom Data Actions
+					th.border-bottom Disallowed Data Actions
+			tbody#roleDisplayTbody
+				tr#templateTr.d-none
+					td.roleName 
+					td.risk
+						.criticalRisk.rounded-pill.align-items-center.d-flex.bg-danger(style="min-width: 85px" title="A highly privileged role that has few if any controls")
+							span.m-auto.text-white.fw-bolder Critical
+						.highRisk.rounded-pill.align-items-center.d-flex.bg-danger(style="min-width: 85px" title="A High risk role is identified as such due to allowing deletion of data and resources which is often irreversible")
+							span.m-auto.text-white.fw-bolder High
+						.mediumRisk.rounded-pill.align-items-center.d-flex.bg-warning(style="min-width: 85px" title="A Medium risk role is identified by allowing access to write and/or modify data")
+							span.m-auto.text-white.fw-bolder Medium
+						.lowRisk.rounded-pill.align-items-center.d-flex.bg-success(style="min-width: 85px" title="Low risk roles do not allow modifying data nor deleting of data, but may still be capable of causing issues if maliciously used.")
+							span.m-auto.text-white.fw-bolder Low
+					td.description(style="max-width:200px") 
+					td.allowedActions 
+					td.disallowedActions 
+					td.dataActions 
+					td.disallowedDataActions

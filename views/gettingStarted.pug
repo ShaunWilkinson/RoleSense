@@ -1,0 +1,42 @@
+extends theme/dashboardLayout
+
+block content
+	.container
+		.card.mb-3.mt-4
+			.card-body
+				h2.mt-2 Getting Started
+				p Thanks for signing up! When you first log in, things may look a little bare, but we'll quickly get you set up if you follow the basic instructions below.
+
+		.card.mb-3 
+			.card-body
+				h2.card-title Content
+				ul.list-group.list-group-flush.contentIndex
+					li.list-group-item 
+						a(href="#prerequisites") Prerequisites 
+						ul.list-group.list-group-flush 
+							li.list-group-item 
+								a(href="#rolesenseConfiguration") RoleSense Configuration
+							li.list-group-item 
+								a(href="#azureConfiguration") Azure Configuration
+							li.list-group-item 
+								a(href="#subscriptionAccess") Assign Subscription Access 
+					li.list-group-item 
+						a(href="#firstReport") Generating a Report
+					li.list-group-item 
+						a(href="#workspaceLink") Activity Log Linking
+
+		.card.mb-3 
+			.card-body
+				include helpContent/initialSetup
+		
+		.card.mb-3
+			.card-body
+				include helpContent/firstReport
+				
+		.card.mb-3
+			.card-body
+				include helpContent/workspaceLink
+
+
+
+	

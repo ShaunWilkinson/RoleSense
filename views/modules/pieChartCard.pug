@@ -1,0 +1,48 @@
+mixin pieChartCard(chartTitle, titleText, chartId, chartData) 
+	.col-12.col-sm-6.col-xl-4.mb-4 
+		.card.border-0.shadow.h-100 
+			.card-body.h-100
+				.row.d-block.d-xl-flex.align-items-center.h-100 
+					.col-12.text-xl-center.d-flex.align-items-center.justify-content-xl-center 
+						h2.h5(title=titleText) #{chartTitle || "No Text Provided"}
+					.col-12.text-xl-center.d-flex.align-items-center.justify-content-xl-center 
+						canvas(id=chartId style="width:100%; height: auto;")
+						script. 
+							var ctx = document.getElementById("#{chartId}").getContext('2d');
+							new Chart(ctx, {
+									type: 'doughnut',
+									data: {
+										labels: !{JSON.stringify(chartData.map(row => row.label))},
+										datasets: [
+											{
+												data: !{JSON.stringify(chartData.map(row => row.count))},
+												backgroundColor: !{JSON.stringify(chartData.map(row => row.backgroundColor))}
+											}
+										]
+									},
+									options: {
+										responsive: true,
+										maintainAspectRatio: false,
+										plugins: {
+											legend: {
+												position: 'right',
+												labels: {
+													generateLabels: function(chart) {
+														const data = chart.data;
+														return data.labels.map((label, index) => {
+															const count = data.datasets[0].data[index];
+															return {
+																text: `${label}: ${count}`, // Append count to the label
+																fillStyle: data.datasets[0].backgroundColor[index],
+																index: index,
+															};
+														});
+													}
+												}
+											}
+										}
+									}
+								}
+							)
+
+					

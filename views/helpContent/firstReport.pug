@@ -1,0 +1,29 @@
+block firstReport 
+	h3#firstReport Generating a Report
+	p RoleSense allows you to audit all direct role assignments on users and service principals in a given Subscription, identifying roles that may no longer be required and role assignments that can be reduced based on actual usage.
+	p To generate a report, first ensure that all prerequisites have been met and then follow the instructions below -
+	ol 
+		li Navigate to the 
+			span.fw-bolder Home 
+			| page.
+		li Under the 
+			span.fw-bolder Start Role Analysis 
+			| heading, select a 
+			span.fw-bolder Subscription
+			| which determines the Subscription that will be analysed. 
+			ul
+				li If no Subscriptions appear, ensure the RoleSense application has at least the Reader role at the Subscription level.
+		li Optionally, select a 
+			span.fw-bolder Resource Group 
+			| to view role assignments at that level.
+		li If you have configured 
+			span.fw-bolder Activity Log Linking
+			| , you may also select a date to modify the lookback period of the report.
+		li Click 
+			span.fw-bolder Analyse
+			| .
+		li A report appears in the Reports list with the 
+			span.fw-bolder Requested 
+			| status. This will change as the report is processed and will finally change to 
+			span.fw-bolder Ready 
+			| status which indicates that the report has finished processing and is ready to view. This can take some time depending on the quantity of activity logs available.

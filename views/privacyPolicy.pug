@@ -1,0 +1,103 @@
+extends theme/default
+
+block content 
+	//- Header
+	header.py-5.d-flex.align-items-center
+		.container.px-5
+			.row.gx-5.justify-content-center
+				.col-lg-6.bg-header.rounded
+					.text-center.my-5
+						h1.display-5.fw-bolder.text-white.mb-2 Privacy Policy
+						p.lead.mb-4 This privacy policy covers how we may interact with you, the data that we collect and why and governs our approach to privacy on your behalf.
+
+	.container.px-4.px-lg-5
+		.row.gx-4-fx-lg-5.p-4.justify-content-center
+			h2.mx-auto.mt-4 The types of personal information we collect
+			p We currently collect the following information: 
+			ul
+				li.ms-3 
+					span.fw-bold Azure Tenant Data: 
+					span Unique Tenant IDs
+				li.ms-3 
+					span.fw-bold Azure Resource Data: 
+					span Subscription Names and IDs, Resource Group Names and IDs, Log Analytics Workspace IDs
+				li.ms-3 
+					span.fw-bold Azure User Data: 
+					span Object IDs, Display Names, User Principal Names, Email Addresses
+				li.ms-3 
+					span.fw-bold RoleSense Usage Data: 
+					span Logs, IP addresses, device information 
+				li.ms-3 
+					span.fw-bold RoleSense Application Data: 
+					span Metada, configuration, and settings, role assignments & recommendations at time of reporting
+				li.ms-3 
+					span.fw-bold RoleSense Operational Data: 
+					span Activity logs, billing and cost data, access logs
+
+			p We currently process the following information in addition to the data shown above: 
+			ul
+				li.ms-3 
+					span.fw-bold Azure Tenant Data: 
+					span User Count, Tenant Display Name
+				li.ms-3 
+					span.fw-bold Azure Resource Data: 
+					span Subscription Details, Resource Group Details, Log Analytics Workspace Details, Activity Logs, Role Definitions
+
+			h2.mx-auto.mt-3 How we get the personal information and why we have it
+			p All personal information that is processed and/or stored is provided via the Microsoft Graph API at your request in order to make use of RoleSense, all data that is processed and/or stored is used for the following purposes: 
+			ul
+				li.ms-3 Registration and User account management
+				li.ms-3 Billing and licence management
+				li.ms-3 Marketing-related communications
+				li.ms-3 Processing of user tenant data for reporting and analysis purposes
+				li.ms-3 Storage of data for viewing historical report suggestions
+
+			p Under the UK General Data Protection Regulation (UK GDPR), the lawful bases we rely on for processing this information are
+			ul
+				li.ms-3 Your consent. You are able to remove your consent at any time. You can do this by contacting 
+					a(href="mailto:support@rolesense.org") support@rolesense.org
+				li.ms-3 We have a contractual obligation.
+				li.ms-3 We have a legitimate interest
+
+			h2.mx-auto.mt-3 How we store your personal information
+			ul
+				li.ms-3 Your information is securely stored.
+				li.ms-3 We keep data for the lifetime of the account to ensure continued access to RoleSense and to view reports. 
+				li.ms-3 If an account is deleted or such a request is received by the primary email associated with an account we will dispose of personally identifiable information within 4 weeks of taking receipt of said request.
+
+			h2.mx-auto.mt-3 Your data protection rights
+			p Under data protection law, you have rights including:
+			ul
+				li.ms-3 Your right of access - You have the right to ask us for copies of your personal information.
+				li.ms-3 Your right to rectification - You have the right to ask us to rectify personal information you think is inaccurate. You also have the right to ask us to complete information you think is incomplete.
+				li.ms-3 Your right to erasure - You have the right to ask us to erase your personal information in certain circumstances.
+				li.ms-3 Your right to restriction of processing - You have the right to ask us to restrict the processing of your personal information in certain circumstances.
+				li.ms-3 Your right to object to processing - You have the the right to object to the processing of your personal information in certain circumstances.
+				li.ms-3 Your right to data portability - You have the right to ask that we transfer the personal information you gave us to another organisation, or to you, in certain circumstances.
+			p You are not required to pay any charge for exercising your rights. If you make a request, we have one month to respond to you.
+				br
+				| Please contact us at 
+				a(href="mailto:support@rolesense.org") support@rolesense.org
+				|  if you wish to make a request.
+
+			h2.mx-auto.mt-3 How to complain 
+			p If you have any concerns about our use of your personal information, you can make a complaint to us at 
+				a(href="mailto:support@rolesense.org") support@rolesense.org
+				
+			p You can also complain to the ICO if you are unhappy with how we have used your data.
+			p The ICOs address:
+				br
+				| Information Commissioners Office
+				br
+				| Wycliffe House
+				br
+				| Water Lane
+				br
+				| Wilmslow
+				br
+				| Cheshire
+				br
+				| SK9 5AF
+			p Helpline number: 0303 123 1113
+			p ICO website: 
+				a(href="https://www.ico.org.uk") https://www.ico.org.uk

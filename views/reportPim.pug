@@ -1,0 +1,149 @@
+extends theme/dashboardLayout
+
+block content
+	script(type="text/javascript", src='/javascript/dashboard.js?v=1.3')
+
+	if helpText
+		.alert.alert-info.mt-3(role="alert")
+			p.mb-0
+				svg(xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16").me-2
+					path(d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2")
+				| #{helpText}
+
+	if !report
+		.card.card-body.shadow
+			h2.mt-2.mb-4 Report Not Found 
+			p.mb-0 No report was found with the given ID. The report may not have finished processing or you may not have access.
+	else
+		script(type="text/javascript", src='/chart.umd.js?v=1.0')
+
+		.row.mt-4
+			- var headerText = 'Total Assignments'
+			- var data = suggestions.length ?? '0'
+			- var defaultText = '0'
+			- var colorClass = 'bg-start'
+			- var iconClass = 'bi-people-fill'
+			if totalReportSize > suggestions.length 
+				- data = `${suggestions.length} (${totalReportSize})`
+			.col-12.col-sm-6.mb-4 
+				include ./modules/infoCard
+
+			- var headerText = 'Can Be Removed'
+			- var canBeRemoved = suggestions.filter(item => item.inUse == 0)
+			- var percentage = (canBeRemoved.length / suggestions.length) * 100
+			- var data = `${(percentage).toFixed(2)}% (${canBeRemoved.length})` ?? '0% (0)'
+			- var colorClass = 'bg-end'
+			- var iconClass = 'bi-trash-fill'
+			.col-12.col-sm-6.mb-4 
+				include ./modules/infoCardPercentage
+
+		
+		//-.row
+			include ./modules/pieChartCard
+
+			- var criticalCategory = suggestions.filter(role => role.category == 'Critical')
+			- var highCategory = suggestions.filter(role => role.category == 'High')
+			- var mediumCategory = suggestions.filter(role => role.category == 'Medium')
+			- var lowCategory = suggestions.filter(role => role.category == 'Low')
+			+pieChartCard('Risk by Role', 'High risk roles are those which allow deletion of data and resources, Medium are those that allow writing, Low are all other roles.', 'roleRiskChart', [
+				{label: 'Critical', count: criticalCategory.length, backgroundColor: '#e11d48 '}, 
+				{label: 'High', count: highCategory.length, backgroundColor: '#92278F'}, 
+				{label:'Medium', count: mediumCategory.length, backgroundColor: '#5C41A2'}, 
+				{label:'Low', count: lowCategory.length, backgroundColor: '#1C61BC'}])
+
+			- var users = [...new Set(suggestions.filter(role => role.userType == 'User').map(user => user.userName))]
+			- var servicePrincipals = [...new Set(suggestions.filter(role => role.userType == 'ServicePrincipal').map(user => user.userName))]
+			+pieChartCard('User Type Breakdown', 'A summary of how many users and service principals with role assignments', 'userTypeChart', [
+				{label: 'Users', count: users.length, backgroundColor: '#92278F'}, 
+				{label:'Service Principals', count: servicePrincipals.length, backgroundColor: '#1C61BC'}])
+
+			- var globalCategory = suggestions.filter(role => role.scopeType == 'Global')
+			- var subscriptionCategory = suggestions.filter(role => role.scopeType == 'Subscription')
+			- var resourceGroupCategory = suggestions.filter(role => role.scopeType == 'Resource Group')
+			- var resourceCategory = suggestions.filter(role => role.scopeType == 'Resource')
+			+pieChartCard('Role Scope Breakdown', 'A summary of the scope of all roles, lower scoped roles are better.', 'roleScopeChart', [
+				{label: 'Global', count: globalCategory.length, backgroundColor: '#92278F'}, 
+				{label:'Subscription', count: subscriptionCategory.length, backgroundColor: '#6D399D'}, 
+				{label:'Resource Group', count: resourceGroupCategory.length, backgroundColor: '#4A4AAA'},
+				{label:'Resource', count: resourceCategory.length, backgroundColor: '#1C61BC'}])
+
+		.row.mb-2 
+			.col-12 
+				.btn-toolbar 
+					a.btn.btn-sm.btn-gray-800.d-inline-flex.align-items-center(href=`/report/download?id=${reportId}`)
+						| Download (.csv)
+
+		.row.gy-2.mb-2 
+			.col-12
+				.card.shadow.border-0
+					.titleSection.mx-4.mt-4
+						h2.card-title.mt-0.mb-2 Report - 
+							span.fw-normal #{report.title}
+						p The report below has been generated based on all available audit log information.
+
+					.card-body.table-wrapper.table-responsive
+						table.table.user-table.table-hover.align-items-center#reportTable.table-striped
+							thead
+								tr
+									th.border-bottom(title="The UPN or ID of a user or Service Principal") Name
+									th.border-bottom(title="Identifies if a given account is a User or Service Principal") Type
+									th.border-bottom(title="The role that is assigned by PIM") Eligible Role
+									th.border-bottom(title="Identifies the level that a role is assigned") Scope
+									th.border-bottom(title="Whether an eligible role has been activated within the period") Assignment in Use 
+									th.border-bottom(title="The latest activation date") Last Used
+									th.border-bottom(title="The name of the group that the assignment is inherited from where applicable") Group Name
+							tbody
+								if !suggestions || suggestions.length == 0
+									tr.reportRow
+										td(colspan="4")
+											span.fw-bold There are no recommendations
+								else
+									for suggestion in suggestions
+										tr.reportRow
+											td
+												.d-flex.align-items-center
+													.d-block
+														span.fw-bold.reportName #{suggestion.displayName}
+
+														- var id = suggestion.principalName
+														if id == 'null'
+															- id = ''
+														.small.text-gray.reportUsersCount #{id}
+											td
+												span.fw-bold.fw-bold #{suggestion.accountType}
+											td
+												span.fw-bold.fw-bold #{suggestion.roleDisplayname}
+											td
+												span.fw-normal #{suggestion.directoryScopeId}
+
+											td
+												- var roleRequired = suggestion.inUse == 1
+												- var colorClass = 'bg-success'
+												if roleRequired
+													- roleRequired = "Yes"
+												else 
+													- roleRequired = "No"
+													- colorClass = 'bg-danger'
+												
+												.rounded-pill.align-items-center.d-flex(style="min-width: 85px" class=colorClass)
+													span.m-auto.text-white.fw-bolder #{roleRequired}
+											td
+												if roleRequired == "Yes"
+													- var created = new Date(suggestion.lastUsed);
+													- var friendlyCreated = created.toLocaleString('en-UK', {weekday: 'long',year: 'numeric',month: 'long',day: 'numeric',hour: 'numeric',minute: '2-digit',hour12: true})
+													span.fw-normal #{friendlyCreated}
+											td 
+												if suggestion.groupName != 'N/A'
+													.d-flex.align-items-center
+														.d-block
+															span.fw-bold.reportName #{suggestion.groupName}
+
+															- var id = suggestion.groupId
+															if id == 'null'
+																- id = ''
+															.small.text-gray.reportUsersCount #{id}
+												
+
+						script(src='tablesort.min.js')
+						script.
+							new Tablesort(document.getElementById('reportTable'));

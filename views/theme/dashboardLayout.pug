@@ -1,0 +1,11 @@
+doctype html
+html(lang="en")
+	include ./dashboardHeader.pug
+
+	body.vh-100
+		//-include ./navbarTop.pug
+
+		include ./sidebar
+
+		.content.dashboardBackground(style="min-height:100vh").pb-2
+			block content

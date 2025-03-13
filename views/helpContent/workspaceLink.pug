@@ -1,0 +1,19 @@
+block workspaceLink 
+	h3#workspaceLink Activity Log Linking
+	p Although RoleSense queries the Graph API directly by default to generate reports, the API has a limited retention period of 30 days. If you need a longer lookback period, you can link RoleSense to a Log Analytics Workspace which contains exported Azure Activity Logs.
+	ol 
+		li Navigate to the 
+			span.fw-bolder Activity Log Link
+			| page.
+		li Under the 
+			span.fw-bolder Log Analytics Workspace Link
+			| heading, select the  
+			span.fw-bolder Subscription
+			| which contains the Workspace. 
+			ul
+				li If no Subscriptions appear, ensure the RoleSense application has at least the Reader role at the Subscription level.
+		li Select the Workspace name which contains the Activity Logs.
+		li Click 
+			span.fw-bolder Link
+			| . RoleSense will now authenticate to the Workspace, ensuring that there are valid Activity Logs.
+		li Once the page reloads, the oldest available log date will be displayed. RoleSense will continue to query the Graph API until the Workspace has a minimum of 30 days of logs.

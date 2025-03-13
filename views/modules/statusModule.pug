@@ -1,0 +1,10 @@
+block statusModule 
+    if successStatus
+        .mb-4.card.border-success
+            .card-body.text-center.bg-success
+                p.card-text.fw-bold.text-white !{new Date().toLocaleTimeString('en-GB', {timeZone: 'UTC'})} - !{successStatus}
+
+    if errorStatus
+        .mb-4.card.border-danger
+            .card-body.text-center.bg-danger
+                p.card-text.fw-bold.text-white !{new Date().toLocaleTimeString('en-GB', {timeZone: 'UTC'})} - !{errorStatus}

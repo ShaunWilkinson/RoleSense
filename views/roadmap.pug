@@ -1,0 +1,16 @@
+extends theme/default
+
+block content 
+	//- Header
+	header.py-5.d-flex.align-items-center
+		.container.px-5
+			.row.gx-5.justify-content-center
+				.col-lg-6.bg-header.rounded
+					.text-center.my-5
+						h1.display-5.fw-bolder.text-white.mb-2 Roadmap
+						p.lead.mb-4 Although we can't guarantee specific dates, we want to be as upfront as possible about our plans for RoleSense, this public roadmap is maintained by the team to show you what we hope to do in the near future.
+
+	.container-fluid.px-4.px-lg-5
+		.row.gx-4-fx-lg-5.p-4.justify-content-center
+			iframe(title="Kanban Board", src="https://www.kanshareban.com/project/1ba1e864-df2c-469e-8586-6a13e027b574", style="display:block; width:100%; height:99vh;")
+			

@@ -1,0 +1,106 @@
+extends theme/default
+
+block content
+	//- Header
+	header.py-5.d-flex.align-items-center
+		.container.px-5
+			.row.gx-5.justify-content-center
+				.col-lg-6.bg-header.rounded
+					.text-center.my-5
+						img(src="/images/Logos/logo-white-full.webp", alt="RoleSense - Data-Driven Access Control for Azure").img-fluid.mb-4
+						//-h1.display-5.fw-bolder.text-white.mb-2 Data-Driven Access Control for Azure
+						p.lead.mb-4.text-white
+							| Boost Security & Optimise Access with RoleSense - The Ultimate Access Optimisation Reporting Tool for Your Business.
+						.justify-content-center.mb-2.w-75.m-auto
+							//- a.btn.btn-primary.btn-lg.px-4.me-sm-3(href='/login') Get Started
+							a(href="/login").w-100
+								btn.btn.btn-dark.btn-lg.px-4.w-100 Register Today
+						p.text-white.fw-light RoleSense is 
+							strong.fw-bolder free to try 
+							| for as long as you like
+
+	//- section#whatisRoleSense.py-5.border-bottom
+		.container.px-5.my-5
+			.row.gx-5
+				.col-lg-8.mb-5.mb-lg-0
+					a(href="/images/reportExample.webp")
+						.bg-gradient.text-white.rounded-3.mb-3
+							img(src="/images/reportExample.webp").img-fluid
+
+				.col-lg-4.mb-5.mb-lg-0
+					h2.h4.fw-bolder How can RoleSense help you?
+					p In today's fast-evolving digital landscape, security is paramount. RoleSense provides an intelligent solution to help organizations identify and reduce risk by fine-tuning access control across Azure.
+					p RoleSense is designed to analyze Azure Activity Logs and deliver actionable insights into where access can be trimmed or reduced, empowering you to take action to enhance both security and compliance.
+
+	//- Features section
+	section#benefits.py-5.border-bottom
+		.container.px-5.my-5
+			.row.gx-5
+				.col-lg-4.mb-5.mb-lg-0.d-flex.flex-column
+					.feature.bg-start.bg-gradient.text-white.rounded-3.mb-3.mx-auto
+						i.bi.bi-building
+					h2.h4.fw-bolder.text-center Enhance Security
+					p.text-justify Excessive permissions can be difficult to detect and expose your organization to unnecessary security threats. 
+					p.text-justify RoleSense helps you to easily and efficiently identify over-privileged accounts and provides actionable insights on where access can be safely reduced.
+					//-a.text-decoration-none(href='#!')
+						| Call to action
+						i.bi.bi-arrow-right
+				.col-lg-4.mb-5.mb-lg-0.d-flex.flex-column
+					.feature.bg-mid.bg-gradient.text-white.rounded-3.mb-3.mx-auto
+						i.bi.bi-collection
+					h2.h4.fw-bolder.text-center Clear Reporting
+					p.text-justify At RoleSense, we believe Azure access control should be clear, actionable, and aligned with real user behavior. 
+					p.text-justify Our data-driven approach ensures that you're always on top of access control, without the guesswork.
+					//-a.text-decoration-none(href='#!') 
+						| Call to action
+						i.bi.bi-arrow-right
+				.col-lg-4.mb-5.mb-lg-0.d-flex.flex-column
+					.feature.bg-end.bg-gradient.text-white.rounded-3.mb-3.mx-auto
+						i.bi.bi-toggles2
+					h2.h4.fw-bolder.text-center Improve Efficiency
+					p.text-justify Managing access can be difficult and time-consuming, especially where access has grown organically over time. 
+					p.text-justify RoleSense provides you with all the intelligence you need to affect real change efficiently.
+					//-a.text-decoration-none(href='#!')
+						| Call to action
+						i.bi.bi-arrow-right
+
+
+	//- Features section
+	section#features.bg-dark.py-5.border-bottom
+		.container.px-5.my-5
+			.text-center.mb-5.text-white
+				h2.fw-bolder Features
+				p.lead.mb-0 Make identifying unnecessary and overprivileged access simpler than ever with our ever-expanding toolset
+			.row.gx-5
+				#featureCarousel.carousel.carousel-dark.slide(data-bs-ride="carousel")
+					.carousel-indicators 
+						button(type="button" data-bs-target="#featureCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-lavel="Slide 1")
+						button(type="button" data-bs-target="#featureCarousel" data-bs-slide-to="1" aria-lavel="Slide 2")
+						button(type="button" data-bs-target="#featureCarousel" data-bs-slide-to="2" aria-lavel="Slide 3")
+					.carousel-inner 
+						.carousel-item.active 
+							img(src="/images/Homepage/resourceRoleReport.webp" alt="An example of a Resource Role Report showing roles that can be removed and/or reduced").d-block.w-100
+							.carousel-caption.d-none.d-md-block
+								.bg-dark.bg-opacity-75.p-3.rounded.text-white
+									h4 Resource Role Reports 
+									p.fw-bold Identify unneccesary and overprivileged role assignments quickly and efficiently. Based on actual user activity.
+						.carousel-item 
+							img(src="/images/Homepage/entraIdReports.webp" alt="An example of the Entra ID Privileged Identity Management reporting tool").d-block.w-100
+							.carousel-caption.d-none.d-md-block
+								.bg-dark.bg-opacity-75.p-3.rounded.text-white
+									h4 Entra ID PIM Reporting
+									p.fw-bold Easily identify eligible PIM roles that haven't been activated in a given period.
+						.carousel-item
+							img(src="/images/Homepage/minimumRoleTool.webp" alt="An example showing the Minimum Role Tool, used to calculate the minimum role ahead of time").d-block.w-100
+							.carousel-caption.d-none.d-md-block
+								.bg-dark.bg-opacity-75.p-3.rounded.text-white
+									h4 Minimum Role Tool
+									p.fw-bold Simply enter the privileges that you need to identify all potential roles from most to least secure.
+						
+						button.carousel-control-prev(type="button" data-bs-target="#featureCarousel" data-bs-slide="prev")
+							span.carousel-control-prev-icon(aria-hidden="true")
+							span.visually-hidden Previous
+
+						button.carousel-control-next(type="button" data-bs-target="#featureCarousel" data-bs-slide="next")
+							span.carousel-control-next-icon(aria-hidden="true")
+							span.visually-hidden Next

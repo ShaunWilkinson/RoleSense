@@ -1,0 +1,49 @@
+extends theme/default
+
+block content
+	//- Header
+	header.py-5.d-flex.align-items-center
+		.container.px-5
+			.row.gx-5.justify-content-center
+				.col-lg-6.bg-header.rounded
+					.text-center.my-5
+						h1.display-5.fw-bolder.text-white.mb-2 Getting Started
+						p.lead.mb-4 We want to make everything as simple as possible for you, this page will tell you everything you need to know to get up and running in minutes
+
+	.container.px-4.px-lg-5
+		.row.gx-4-fx-lg-5.p-4.justify-content-center
+			.card.mb-3.shadow 
+				.card-body
+					h2.card-title Content
+					ul.list-group.list-group-flush.contentIndex
+						li.list-group-item 
+							a(href="#signingUp").text-black.td-none Signing Up
+						li.list-group-item 
+							a(href="#prerequisites").text-black.td-none Prerequisites 
+							ul.list-group.list-group-flush 
+								li.list-group-item 
+									a(href="#rolesenseConfiguration").text-black.td-none RoleSense Configuration
+								li.list-group-item 
+									a(href="#azureConfiguration").text-black.td-none Azure Configuration
+								li.list-group-item 
+									a(href="#subscriptionAccess").text-black.td-none Assign Subscription Access 
+						li.list-group-item 
+							a(href="#firstReport").text-black.td-none Generating a Report
+						li.list-group-item 
+							a(href="#workspaceLink").text-black.td-none Activity Log Linking
+
+			.card.mb-3.shadow  
+				.card-body
+					include helpContent/signingUp
+
+			.card.mb-3.shadow  
+				.card-body
+					include helpContent/initialSetup
+			
+			.card.mb-3.shadow 
+				.card-body
+					include helpContent/firstReport
+					
+			.card.mb-3
+				.card-body
+					include helpContent/workspaceLink

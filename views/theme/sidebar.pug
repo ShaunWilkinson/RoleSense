@@ -1,0 +1,102 @@
+block sidebar 
+	nav.navbar.navbar-dark.navbar-theme-primary.px-4.col-12.d-lg-none
+		//- Tablet top bar
+		a.navbar-brand.me-lg-5(href='/')
+			img.navbar-brand-dark.img-fluid(src='/images/Logos/icon-white.webp' alt='Logo', style="height:20px;")
+			span.ms-1.sidebar-text.fw-bolder.my-auto.align-middle RoleSense
+		.d-flex.align-items-center
+			button.navbar-toggler.d-lg-none.collapsed(type='button' data-bs-toggle='collapse' data-bs-target='#sidebarMenu' aria-controls='sidebarMenu' aria-expanded='false' aria-label='Toggle navigation')
+				span.navbar-toggler-icon
+
+	nav#sidebarMenu.sidebar.d-lg-block.bg-gray-800.text-white.collapse(data-simplebar='init')
+		.simplebar-wrapper(style='margin: 0px;')
+			.simplebar-height-auto-observer-wrapper
+				.simplebar-height-auto-observer
+			.simplebar-mask
+				.simplebar-offset(style='right: 0px; bottom: 0px;')
+					.simplebar-content-wrapper(style='height: auto; overflow: hidden;')
+						.simplebar-content(style='padding: 0px;')
+							.sidebar-inner.px-4.pt-3
+								.user-card.d-flex.d-md-none.align-items-center.justify-content-between.justify-content-md-center.pb-4
+									.d-block
+										//- In hamburger menu
+										a.logo.d-flex.align-items-center(href='/')
+											span.sidebar-icon
+												img(src='/images/Logos/icon-white.webp' height='20' width='20' alt='RoleSense Logo')
+											span.mt-1.ms-1.sidebar-text.fw-bolder RoleSense
+									.collapse-close.d-md-none
+										a(href='#sidebarMenu' data-bs-toggle='collapse' data-bs-target='#sidebarMenu' aria-controls='sidebarMenu' aria-expanded='true' aria-label='Toggle navigation')
+											svg.icon.icon-xs(fill='currentColor' viewbox='0 0 20 20' xmlns='http://www.w3.org/2000/svg')
+												path(fill-rule='evenodd' d='M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z' clip-rule='evenodd')
+								
+								ul.nav.flex-column.pt-3.pt-md-0
+									//- Main left sidebar
+									li.nav-item.mb-4.d-none.d-md-block
+										a.d-flex.align-items-center.p-0(href='/')
+											img(src="/images/Logos/logo-white-full.webp")
+											//-span.sidebar-icon
+												img(src='/images/Logos/icon-white.webp' height='20' width='20' alt='RoleSense Logo')
+											//-span.mt-1.ms-1.sidebar-text.fw-bolder RoleSense
+
+									- var active = currentPath.toLowerCase() == '/gettingstarted'
+									li.nav-item(class= active ? 'active' : '')
+										a.nav-link(href='/gettingStarted')
+											span.sidebar-icon
+												svg.icon.icon-xs.me-2(xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-square-fill" viewBox="0 0 16 16")
+													path(d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm8.93 4.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM8 5.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2")
+											span.sidebar-text Getting Started
+
+									- var active = currentPath.toLowerCase() == '/' || currentPath.toLowerCase() == '/reports' || currentPath.toLowerCase() == '/report'
+									li.nav-item(class= active ? 'active' : '')
+										a.nav-link(href='/')
+											span.sidebar-icon
+												svg.icon.icon-xs.me-2(xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-universal-access" viewBox="0 0 16 16")
+													path(d="M9.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0M6 5.5l-4.535-.442A.531.531 0 0 1 1.531 4H14.47a.531.531 0 0 1 .066 1.058L10 5.5V9l.452 6.42a.535.535 0 0 1-1.053.174L8.243 9.97c-.064-.252-.422-.252-.486 0l-1.156 5.624a.535.535 0 0 1-1.053-.174L6 9z")
+											span.sidebar-text Role Reports
+
+									- var active = currentPath.toLowerCase() == '/pimreports' || currentPath.toLowerCase() == '/pimreport'
+									li.nav-item(class= active ? 'active' : '')
+										a.nav-link(href='/pimReports')
+											span.sidebar-icon
+												svg.icon.icon-xs.me-2(fill='currentColor' viewbox='0 0 20 20' xmlns='http://www.w3.org/2000/svg')
+													path(fill-rule="evenodd" d="M8 0c-.69 0-1.843.265-2.928.56-1.11.3-2.229.655-2.887.87a1.54 1.54 0 0 0-1.044 1.262c-.596 4.477.787 7.795 2.465 9.99a11.8 11.8 0 0 0 2.517 2.453c.386.273.744.482 1.048.625.28.132.581.24.829.24s.548-.108.829-.24a7 7 0 0 0 1.048-.625 11.8 11.8 0 0 0 2.517-2.453c1.678-2.195 3.061-5.513 2.465-9.99a1.54 1.54 0 0 0-1.044-1.263 63 63 0 0 0-2.887-.87C9.843.266 8.69 0 8 0m0 5a1.5 1.5 0 0 1 .5 2.915l.385 1.99a.5.5 0 0 1-.491.595h-.788a.5.5 0 0 1-.49-.595l.384-1.99A1.5 1.5 0 0 1 8 5")
+											span.sidebar-text PIM Reports
+
+									//- var active = currentPath.toLowerCase() == '/reports' || currentPath.toLowerCase() == '/report'
+									//-li.nav-item(class= active ? 'active' : '')
+										a.nav-link(href='/reports')
+											span.sidebar-icon
+												svg.icon.icon-xs.me-2(xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16")
+													path(d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2m5.5 1.5v2a1 1 0 0 0 1 1h2z")
+											span.sidebar-text Reports
+
+									- var active = currentPath.toLowerCase() == '/minimumAccessTool'
+									li.nav-item(class= active ? 'active' : '')
+										a.nav-link(href='/minimumAccessTool')
+											span.sidebar-icon
+												svg.icon.icon-xs.me-2(fill='currentColor' viewbox='0 0 16 16' xmlns='http://www.w3.org/2000/svg')
+													path(d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-9 8c0 1 1 1 1 1h5v-1a2 2 0 0 1 .01-.2 4.49 4.49 0 0 1 1.534-3.693Q8.844 9.002 8 9c-5 0-6 3-6 4m7 0a1 1 0 0 1 1-1v-1a2 2 0 1 1 4 0v1a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1zm3-3a1 1 0 0 0-1 1v1h2v-1a1 1 0 0 0-1-1")
+											span.sidebar-text Minimum Role Tool
+											
+									- var active = currentPath.toLowerCase() == '/logs'
+									li.nav-item(class= active ? 'active' : '')
+										a.nav-link(href='/logs')
+											span.sidebar-icon
+												svg.icon.icon-xs.me-2(fill='currentColor' viewbox='0 0 16 16' xmlns='http://www.w3.org/2000/svg')
+													path(fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5")
+											span.sidebar-text Activity Log Link
+											
+									li.dropdown-divider.mt-4.mb-3.border-gray-700(role='separator')
+
+									li.nav-item
+										a.nav-link.d-flex.align-items-center(href='/logout')
+											//-span.sidebar-icon
+												svg.icon.icon-xs.me-2(fill='currentColor' viewbox='0 0 20 20' xmlns='http://www.w3.org/2000/svg')
+													path(fill-rule='evenodd' d='M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z' clip-rule='evenodd')
+											span.sidebar-text Sign Out
+											//-span.badge.badge-md.bg-secondary.ms-1.text-gray-800 v1.4
+			.simplebar-placeholder(style='width: 260px; height: 621px;')
+		.simplebar-track.simplebar-horizontal(style='visibility: hidden;')
+			.simplebar-scrollbar(style='width: 0px; display: none;')
+		.simplebar-track.simplebar-vertical(style='visibility: hidden;')
+			.simplebar-scrollbar(style='height: 0px; display: none;')

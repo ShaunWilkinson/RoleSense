@@ -1,0 +1,48 @@
+extends theme/dashboardLayout
+
+block content
+	script(type="text/javascript", src='/javascript/logs.js?v=1.0')
+
+	include ./modules/dataRetrievalError
+	
+	.card.mb-4.mt-4
+		.card-body.shadow
+			h2.card-title.mb-0 Manage Activity Logs
+			p.text-muted.mb-0 By default, RoleSense directly queries your Azure Subscription Activity Logs using the Graph API, which has a 30-day retention period. In order to extend this, either link an existing Log Analytics Workspace containing Azure Activity Logs or configure RoleSense Activity Log retention.
+		
+	.card.mb-4
+		.card-body.shadow
+			h2.card-title.mb-0 Log Analytics Workspace Link
+			.row.gy-2.mb-2 
+				.col-12 
+					p.text-muted.mb-0 Connect to an existing Log Analytics Workspace. The Workspace must contain Azure Activity Logs exported to it from Azure Monitor.
+					
+				if workspaceId 
+					.col-12 
+						p.text-success#workspaceConnectionTestText(workspaceId=workspaceId) Testing connection to Workspace...
+					.col-12
+						form(method="POST", action="/resources/unlinkWorkspace")
+							button.btn.btn-primary.w-100#unlinkButton(type="submit") Disconnect from #{workspaceId.split('/').pop()} Workspace
+				else
+					.col-12.col-md-4
+						select.form-select(aria-lable="Subscription selector")#subscriptionSelector
+							if !subscriptions || subscriptions.value.length == 0
+								option(selected, value="") No Subscriptions available
+							else 
+								option(selected, value="") Select a Subscription...
+								for subscription in subscriptions.value
+									option(value=subscription.subscriptionId) #{subscription.displayName}
+
+					.col-12.col-md-4
+						select.form-select(aria-lable="Log Analytics Workspace selector")#workspaceSelector
+							option(selected, value="") No Log Analytics Workspaces available
+
+					.col-12.col-md-4
+						button.btn.btn-primary.w-100#linkButton(type="button", disabled) Link
+
+					.col-12.fw-bold.d-none.text-center#analysisText
+
+	.card.mb-4
+		.card-body.shadow
+			h2.card-title.mb-0 RoleSense Activity Log Storage 
+			p.text-muted This feature is not yet available
